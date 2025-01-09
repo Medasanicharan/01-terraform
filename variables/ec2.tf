@@ -3,29 +3,26 @@ resource "aws_instance" "db" {
   vpc_security_group_ids = [aws_security_group.allow_everything.id]
   instance_type = var.instance_type
 
-  tags = Name = var.tags
+  tags = var.tags
 }
 
 resource "aws_security_group" "allow_everything" {
-  name        = "allow_everything_all"
-  description = "Allow everything inbound traffic and all outbound traffic"
-  # vpc_id      = aws_vpc.main.id
+  name        = var.sg_name
+  description = var.sg_description
 
   ingress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    from_port        = var.port
+    to_port          = var.port
+    protocol         = var.protocol
+    cidr_blocks      = var.allowed_cidr
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    from_port        = var.port
+    to_port          = var.port
+    protocol         = var.protocol
+    cidr_blocks      = var.allowed_cidr
   }
 
-   tags = {
-    Name = "allow_everything-1"
-  }
+   tags = var.tags1
 }

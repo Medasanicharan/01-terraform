@@ -13,8 +13,44 @@ variable "instance_type" {
 variable "tags" {
   type        = map
   default = {
-    default     = "db"
+    Name     = "db"
     project = "Expense"
     Module = "DB"
+  }
+}
+
+variable "sg_name" {
+  description = "sg_name"
+  type        = string
+  default     = "allow_everything_all"
+}
+
+variable "sg_description" {
+  description = "sg_description"
+  type        = string
+  default     = "allow_everything_all"
+}
+
+variable "port" {
+  description = "port"
+  default     = 0
+}
+
+variable "protocol" {
+  description = "protocol"
+  default     = "tcp"
+}
+
+variable "allowed_cidr" {
+  description = "cidr_blocks"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
+
+variable "tags1" {
+  type        = map
+  default = {
+    Name     = "allow_everything-1"
+    project = "Expense"
   }
 }
