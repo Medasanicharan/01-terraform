@@ -1,10 +1,10 @@
-resource "aws_instance" "server" {
+resource "aws_instance" "db" {
   ami           = "ami-09c813fb71547fc4f"
   vpc_security_group_ids = [aws_security_group.allow_everything.id]
   instance_type = "t2.micro"
 
   tags = {
-    Name = "linux"
+    Name = "db"
   }
 }
 

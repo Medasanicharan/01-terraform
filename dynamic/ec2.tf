@@ -1,25 +1,17 @@
-resource "aws_instance" "server" {
-  ami           = "ami-09c813fb71547fc4f"
-  vpc_security_group_ids = [aws_security_group.allow_everything.id]
-  instance_type = "t2.micro"
-
-  tags = {
-    Name = "linux"
-  }
-}
-
 resource "aws_security_group" "allow_everything" {
   name        = "allow_everything_all"
   description = "Allow everything inbound traffic and all outbound traffic"
   # vpc_id      = aws_vpc.main.id
 
-  ingress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+  dynamic "ingress" {
+    for_each = var.inbound_rules
+    content {
+    from_port        = ingress.value["port"]
+    to_port          = ingress.value["port"]
+    protocol         = ingress.value["protocol"]
+    cidr_blocks      = ingress.value["allowed_cidr"]
+    }
   }
-
   egress {
     from_port        = 0
     to_port          = 0
